@@ -100,8 +100,8 @@ trait UserAcl
      * @return string The merged acl
      */
     private function aclMerge(array $groups) {
-        $count = sizeof(config('acl')['permissions']);
-        $out = str_repeat(ACL_NONE, $count);
+        $count = max(array_values(config('acl')['permissions'])) + 1;
+        $out = str_repeat(ACL_NONE, $count );
         for($i = 0; $i < $count; $i++) {
             $permMerged = ACL_NONE;
             foreach($groups as $group) {
@@ -128,7 +128,7 @@ trait UserAcl
         $userLevel = $acl[-1*($permissionId+1)] ?? ACL_NONE;
         if(is_numeric($userLevel)) {
             $numericPermissionLevel = intval($userLevel);
-            return $numericPermissionLevel >= $minLevel && $numericPermissionLevel !== ACL_NONE;
+            return $numericPermissionLevel !== ACL_NONE && $numericPermissionLevel >= $minLevel;
         }
         else {
             return $userLevel === $minLevel;
