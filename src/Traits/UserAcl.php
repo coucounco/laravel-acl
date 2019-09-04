@@ -68,7 +68,7 @@ trait UserAcl
         // else check if the user has the permission
         $granted = $this->aclIsAdmin($acl) || $this->aclIsPermissionGranted($permissionId, $acl, $level);
 
-
+/*
         ddd([
             'min_level' => $level,
             'permission' => [
@@ -79,7 +79,7 @@ trait UserAcl
             'granted' => $granted ? 'true' : 'false',
             'permissions' => $config['permissions']
         ]);
-
+*/
 
         return $granted;
     }
@@ -89,7 +89,8 @@ trait UserAcl
      * @param Collection $groups
      * @return string The merged acl
      */
-    private function aclMergeCollection(Collection $groups) {
+    private function aclMergeCollection(Collection $groups = null) {
+        if(!isset($groups)) return null;
         $groups = $groups->pluck(config('acl')['model']['group']['attributeName'])->toArray();
         return $this->aclMerge($groups);
     }

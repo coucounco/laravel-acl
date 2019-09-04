@@ -15,9 +15,13 @@
         "illuminate/contracts": "^5.8|^6.0",
         "illuminate/database": "^5.8|^6.0"
     },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
     "autoload": {
         "psr-4": {
-            "rohsyl\\LaravelAcl\\": "src/"
+            "rohsyl\\LaravelAcl\\": "src"
         },
         "files": [
             "src/Helpers/acl.php"
@@ -25,11 +29,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "rohsyl\\LaravelAcl\\": "src/"
-        },
-        "files": [
-            "src/Helpers/acl.php"
-        ]
+            "rohsyl\\LaravelAcl\\Test\\": "tests"
+        }
     },
     "extra": {
         "laravel": {
