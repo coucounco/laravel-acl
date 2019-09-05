@@ -26,6 +26,8 @@ trait UserAcl
         $userAcl = null;
         $groupAcl = null;
 
+        if(!$config['model']['user']['enableAcl'] && !$config['model']['group']['enableAcl']) return true;
+
         // if the user acl is enabled
         if($config['model']['user']['enableAcl']) {
             $userAcl = $this->{$config['model']['user']['attributeName']};
