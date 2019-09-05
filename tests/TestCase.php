@@ -5,11 +5,14 @@ namespace rohsyl\LaravelAcl\Test;
 use Illuminate\Database\Schema\Blueprint;
 use rohsyl\LaravelAcl\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use rohsyl\LaravelAcl\Test\Models\Group;
 use rohsyl\LaravelAcl\Test\Models\User;
 
 class TestCase extends Orchestra
 {
     protected $testUser;
+
+    protected $testGroups;
 
     protected function getPackageProviders($app)
     {
@@ -30,6 +33,7 @@ class TestCase extends Orchestra
         $this->setUpAclConfig($this->app);
 
         $this->testUser = User::first();
+        $this->testGroups = Group::all();
     }
 
     /**
@@ -41,7 +45,7 @@ class TestCase extends Orchestra
         $app['config']->set('acl.permissions', [
             'superadmin' => 0,
             'user' => 1,
-            'team' => 2,
+            'group' => 2,
             'page' => 3,
             'module' => 9,
         ]);
@@ -55,7 +59,7 @@ class TestCase extends Orchestra
             // n-n relation between user and group
             'group' => [
                 'enableAcl' => true,
-                'relationship' => 'teams',
+                'relationship' => 'groups',
                 'attributeName' => 'acl',
             ]
         ]);
@@ -76,6 +80,11 @@ class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+
+        // Use test User model for users provider
+        $app['config']->set('auth.providers.users.model', User::class);
+
+        $app['config']->set('view.paths', [__DIR__.'/resources/views']);
     }
 
     /**
@@ -107,5 +116,8 @@ class TestCase extends Orchestra
         });
 
         User::create(['email' => 'test@user.com']);
+        Group::create(['name' => 'Team 1']);
+        Group::create(['name' => 'Team 2']);
+        Group::create(['name' => 'Team 3']);
     }
 }

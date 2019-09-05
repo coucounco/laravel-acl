@@ -58,7 +58,12 @@ trait Acl
      * @return mixed
      */
     private function getAcl() {
-        return $this->{config('acl')['model'][$this->acl_model]['attributeName']};
+        return $this->{config('acl')['model'][$this->acl_model]['attributeName']} ?? $this->getDefaultAcl();
+    }
+
+    private function getDefaultAcl() {
+        $count = max(array_values(config('acl')['permissions'])) + 1;
+        return str_repeat(ACL_NONE, $count );
     }
 
     /**
