@@ -85,6 +85,20 @@ trait UserAcl
     }
 
     /**
+     * Check if the user has any of the given permissions
+     * @param array $permissions
+     * @return bool
+     */
+    public function hasAclAny(array $permissions) {
+        foreach($permissions as $permission) {
+            $permissionName = array_key_first($permission);
+            $level = $permission[$permissionName];
+            if($this->hasAcl($permissionName, [$level])) return true;
+        }
+        return false;
+    }
+
+    /**
      * Merge a collection of group acl with a permissiv strategy
      * @param Collection $groups
      * @return string The merged acl

@@ -295,12 +295,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d8e8171f6217c59d3ae1c90882baa2a4e21d06ec"
+                "reference": "5c93ada93089a6b8bd7e6fbd5c0adeaa2c5faf93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d8e8171f6217c59d3ae1c90882baa2a4e21d06ec",
-                "reference": "d8e8171f6217c59d3ae1c90882baa2a4e21d06ec",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5c93ada93089a6b8bd7e6fbd5c0adeaa2c5faf93",
+                "reference": "5c93ada93089a6b8bd7e6fbd5c0adeaa2c5faf93",
                 "shasum": ""
             },
             "require": {
@@ -432,7 +432,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-09-04T12:55:53+00:00"
+            "time": "2019-09-04T21:16:12+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2601,12 +2601,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "95cb0fa6c025f7f0db7fc60f81e9fb231eb2d222"
+                "reference": "4cd2eaedbbb36378ea4fd48a7babcbfb6b7b2fe1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/95cb0fa6c025f7f0db7fc60f81e9fb231eb2d222",
-                "reference": "95cb0fa6c025f7f0db7fc60f81e9fb231eb2d222",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/4cd2eaedbbb36378ea4fd48a7babcbfb6b7b2fe1",
+                "reference": "4cd2eaedbbb36378ea4fd48a7babcbfb6b7b2fe1",
                 "shasum": ""
             },
             "require": {
@@ -2615,7 +2615,7 @@
                 "symfony/polyfill-ctype": "^1.9"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.0 || ^6.0"
+                "phpunit/phpunit": "^4.8.35 || ^5.0 || ^6.0 || ^7.0"
             },
             "type": "library",
             "extra": {
@@ -2650,7 +2650,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2019-08-27T17:00:38+00:00"
+            "time": "2019-09-04T23:06:30+00:00"
         }
     ],
     "packages-dev": [
