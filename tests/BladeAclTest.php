@@ -5,7 +5,7 @@ namespace rohsyl\LaravelAcl\Test;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Artisan;
 
-class UserAclTest extends TestCase
+class BladeAclTest extends TestCase
 {
     use DatabaseMigrations;
 
