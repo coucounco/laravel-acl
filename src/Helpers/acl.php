@@ -62,7 +62,7 @@ if(!function_exists('acl_permission_level')) {
     {
         $permissionId = config('acl')['permissions'][$permission];
         $acl = isset($user->acl) && !empty($user->acl) ? $user->acl : acl_empty();
-        return $acl[-1 * ($permissionId + 1)];
+        return $acl[-1 * ($permissionId + 1)] ?? ACL_NONE;
     }
 }
 
