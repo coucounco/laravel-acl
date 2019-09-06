@@ -62,8 +62,7 @@ trait Acl
     }
 
     private function getDefaultAcl() {
-        $count = max(array_values(config('acl')['permissions'])) + 1;
-        return str_repeat(ACL_NONE, $count );
+        return acl_empty();
     }
 
     /**

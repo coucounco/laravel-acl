@@ -30,6 +30,13 @@ if(!function_exists('acl_has_permission')) {
     }
 }
 
+if(!function_exists('acl_empty')) {
+    function acl_empty() {
+        $count = max(array_values(config('acl')['permissions'])) + 1;
+        return str_repeat(ACL_NONE, $count );
+    }
+}
+
 function ddd($var) {
     echo '<pre>';
     print_r($var);
