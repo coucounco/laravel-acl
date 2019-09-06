@@ -1,6 +1,6 @@
 # Laravel-Acl
 
-Access Control List for Laravel >5.8.
+This is a package for laravel to provide Access Control List for Laravel >5.8.
 
 ## Getting started
 
@@ -98,7 +98,7 @@ return [
 Optionally, you can enable direct acl on `User`
 
 To enable this feature, you have to edit `model.user.enableAcl` 
-it in the `config/acl.php` file and in the migration file and do the following instructions.
+it in the `config/acl.php` file and do the following instructions.
 
 If you don't want direct acl on user, you can jump to the next chapter.
 
@@ -172,7 +172,7 @@ class AddAclInUsersTable extends Migration
 Optionnaly you can enable group acl.
 
 To enable this feature, you have to edit `model.user.enableAcl` 
-it in the `config/acl.php` file and in the migration file and do the following instructions.
+it in the `config/acl.php` file and do the following instructions.
 
 If you don't want direct acl on user, you can jump to the next chapter.
 
@@ -336,7 +336,7 @@ That's all for database table update.
 
 #### 4.2) Update the group model
 
-Add the `GroupAcl` trait in your Group model.
+Add the `GroupAcl` trait in your Group model. You also need to add the relationship to the `User` model
 
 ```
 namespace App\Models;
@@ -348,7 +348,11 @@ class Group extends Model
 {
     use GroupAcl;
 
-    ...    
+    ...
+
+    public function users() {
+        return $this->belongsToMany('App\User');
+    }
 }
 ```
 
@@ -614,13 +618,59 @@ Route::get('users/index', 'UserController@index')->name('users.index')->middlewa
 
 #### Blade
 
-TODO
+It's usefull to be able to hide some buttons in your blade view. To achieve this, you can use some directive provided by Laravel.
+
+##### The `@can` blade directive
+
+```
+@can('user', [ACL_READ])
+    allow
+@else
+    denied
+@endcan
+```
+
+It's the same as writing
+```
+@if(auth()->user()->can('user', [ACL_READ]))
+    allow
+@else
+    denied
+@endif
+```
+
+##### The `@cannot` blade directive
+
+```
+@cannot('user', [ACL_READ])
+    denied
+@else
+    allow
+@endcannot
+```
+
+##### The `@canany` blade directive
+
+```
+@canany(['user', 'page'], [ACL_READ])
+    The user has page or user permisson with a read level
+@elsecanany(['group'], ACL_READ)
+    Or the user has the group permission with a read level
+@else
+    denied
+@endcannot
+```
 
 #### Helper
 
-TODO
+##### Checking permissions
 
-### Retrieve permissions and roles
+Checking if the user can read page
+```
+acl_has_permission($user, 'page', ACL_READ)
+```
+
+##### Retrieve permissions and roles
 
 You can retrieve all permissions with the helper method :
 ```
@@ -631,3 +681,5 @@ You can retrieve all roles with the helper method :
 ```
 $roles = acl_roles()
 ```
+
+
