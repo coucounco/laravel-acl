@@ -30,7 +30,7 @@ trait UserAcl
 
         // if the user acl is enabled
         if($config['model']['user']['enableAcl']) {
-            $userAcl = $this->{$config['model']['user']['attributeName']};
+            $userAcl = $this->getAcl();
         }
 
         // if the group acl is enabled
@@ -47,6 +47,7 @@ trait UserAcl
                     $group = $this->aclFilter($arguments[ACL_ARG_GROUP]);
                     if(isset($group)) {
                         $groupAcl = $group->{$config['model']['group']['attributeName']};
+                        $groupAcl = isset($groupAcl) && !empty($groupAcl) ? $groupAcl : $this->getDefaultAcl();
                     }
                 }
             }

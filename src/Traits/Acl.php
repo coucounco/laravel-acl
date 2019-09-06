@@ -58,7 +58,8 @@ trait Acl
      * @return mixed
      */
     private function getAcl() {
-        return $this->{config('acl')['model'][$this->acl_model]['attributeName']} ?? $this->getDefaultAcl();
+        $acl = $this->{config('acl')['model'][$this->acl_model]['attributeName']};
+        return isset($acl) && !empty($acl) ? $acl : $this->getDefaultAcl();
     }
 
     private function getDefaultAcl() {
