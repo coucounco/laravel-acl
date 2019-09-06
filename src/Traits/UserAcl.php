@@ -13,12 +13,12 @@ trait UserAcl
     /**
      * Return true if the user has permission with the given parameters
      * @param $permission string The permission
-     * @param $arguments array Argument
+     * @param $arguments array|mixed Argument
      * @return bool True if the access is granted
      */
-    public function hasAcl(string $permission, array $arguments) {
+    public function hasAcl(string $permission, $arguments) {
 
-        $level = $arguments[ACL_ARG_LEVEL] ?? ACL_DELETE;
+        $level = is_array($arguments) ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE : $arguments;
 
         $config = config('acl');
         $permissionId = $config['permissions'][$permission];
@@ -36,7 +36,7 @@ trait UserAcl
         // if the group acl is enabled
         if($config['model']['group']['enableAcl']) {
             // if one or many groups is given in parameter, then check the permissions only for the given groups
-            if(isset($arguments[ACL_ARG_GROUP])) {
+            if(is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
                 // if a collection of groups is given, then we merge the acl with a permissiv strategy
                 // we also filter the collection to remove groups that not belongs to the user
                 if($arguments[ACL_ARG_GROUP] instanceof Collection) {
