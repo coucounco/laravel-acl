@@ -58,10 +58,11 @@ if(!function_exists('acl_empty')) {
 
 
 if(!function_exists('acl_permission_level')) {
-    function acl_permission_level($user, $permission)
+    function acl_permission_level($entity, $permission)
     {
+        $column = config('acl')['model'][$entity->aclModelType()]['attributeName'];
         $permissionId = config('acl')['permissions'][$permission];
-        $acl = isset($user->acl) && !empty($user->acl) ? $user->acl : acl_empty();
+        $acl = isset($entity->$column) && !empty($entity->$column) ? $entity->$column : acl_empty();
         return $acl[-1 * ($permissionId + 1)] ?? ACL_NONE;
     }
 }

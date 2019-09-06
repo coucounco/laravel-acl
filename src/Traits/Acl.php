@@ -87,4 +87,8 @@ trait Acl
         }
         $acl[-1*($permissionId+1)] = $level;
     }
+
+    public function aclModelType() {
+        return $this->acl_model;
+    }
 }
