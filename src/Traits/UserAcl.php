@@ -21,6 +21,10 @@ trait UserAcl
         $level = is_array($arguments) ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE : $arguments;
 
         $config = config('acl');
+
+        // ignore if the permission doesn't exists in the configuration
+        if(!isset($config['permissions'][$permission])) return null;
+
         $permissionId = $config['permissions'][$permission];
 
         $userAcl = null;
