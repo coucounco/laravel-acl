@@ -570,6 +570,15 @@ Now that you know how to grant and revoke permissions to a user or a group, you 
 
 This chapter describe every way to check if a user has the permissions to acces pages or perform actions.
 
+#### Gate
+
+You can use Gate facade provided by laravel.
+
+```
+Gate::allows('user', [ACL_CREATE]);
+```
+
+
 #### User model
 
 You can use the  Laravel `can` method of the `User` to check a permission.
