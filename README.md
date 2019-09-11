@@ -1,5 +1,8 @@
 # Laravel-Acl
 
+[![Latest Stable Version](https://poser.pugx.org/rohsyl/laravel-acl/v/stable)](https://packagist.org/packages/rohsyl/laravel-acl)
+[![Total Downloads](https://poser.pugx.org/rohsyl/laravel-acl/downloads)](https://packagist.org/packages/rohsyl/laravel-acl)
+
 This is a package for laravel to provide Access Control List for Laravel >5.8.
 
 ## Getting started
@@ -569,6 +572,15 @@ Now that you know how to grant and revoke permissions to a user or a group, you 
 ### Checking access
 
 This chapter describe every way to check if a user has the permissions to acces pages or perform actions.
+
+#### Gate
+
+You can use Gate facade provided by laravel.
+
+```
+Gate::allows('user', [ACL_CREATE]);
+```
+
 
 #### User model
 
