@@ -1,5 +1,7 @@
 # Laravel-Acl
 
+![Packagist Version](https://img.shields.io/packagist/v/rohsyl/laravel-acl)
+
 This is a package for laravel to provide Access Control List for Laravel >5.8.
 
 ## Getting started
