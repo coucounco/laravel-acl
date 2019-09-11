@@ -6,11 +6,9 @@ language: php
 php:
   - '7.2'
 
-services:
-  - mysql
-
 before_script:
   - composer self-update
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script:
   - vendor/bin/phpunit --coverage-text --testdox
