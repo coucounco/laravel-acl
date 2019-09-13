@@ -4,8 +4,26 @@
 namespace rohsyl\LaravelAcl\Traits;
 
 
+use Illuminate\Support\Facades\Cache;
+
 trait Acl
 {
+
+    /**
+     * Clear all cache entries for this user
+     */
+    public function aclClearCache() {
+        Cache::flush();
+        // TODO: improve caching
+        /*
+        $store = Cache::getStore();
+        $cacheKey = $config['cache']['key'] ?? 'laravel-acl_';
+        foreach($store as $key => $entry) {
+            if(strpos($key, $cacheKey . $this->id) !== false) {
+                Cache::forget($key);
+            }
+        }*/
+    }
 
     /**
      * Grant the given permission with the given level
@@ -24,6 +42,7 @@ trait Acl
      * @param array $permissions
      */
     public function grantPermissions(array $permissions) {
+        $this->aclClearCache();
         if(config('acl')['model'][$this->acl_model]['enableAcl']) {
             $acl = $this->getAcl();
             foreach($permissions as $permission => $level) {

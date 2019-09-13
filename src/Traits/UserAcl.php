@@ -29,9 +29,22 @@ trait UserAcl
 
         $permissionId = $config['permissions'][$permission];
 
-        $key = $config['cache']['key'] ?? 'laravel-acl_';
-        $expirationTime = $config['cache']['expiration_time'] ?? 600;
-        return Cache::remember($key . $this->id . ':' . $permissionId . ':' . $level, $expirationTime, function() use ($config, $arguments, $permissionId, $level) {
+        $cacheKey = $config['cache']['key'] ?? 'laravel-acl_';
+        $cacheExpirationTime = $config['cache']['expiration_time'] ?? 60 * 60 * 24 * 5;
+        $key = $cacheKey . $this->id . ':' . $permissionId . ':' . $level;
+        if($config['model']['group']['enableAcl']) {
+            // if one or many groups is given in parameter, then check the permissions only for the given groups
+            if (is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
+                if($arguments[ACL_ARG_GROUP] instanceof Collection) {
+                    $key .= '_g:' . $arguments[ACL_ARG_GROUP]->pluck('id')->join(',');
+                }
+                // we check the the group belongs to the user and then get the acl
+                else {
+                    $key .= '_g:' . $arguments[ACL_ARG_GROUP]->id;
+                }
+            }
+        }
+        return Cache::remember($key, $cacheExpirationTime, function() use ($config, $arguments, $permissionId, $level) {
 
             $userAcl = null;
             $groupAcl = null;
@@ -98,18 +111,6 @@ trait UserAcl
         });
     }
 
-    /**
-     * Clear all cache entries for this user
-     */
-    public function aclClearCache() {
-        $store = Cache::getStore();
-        $cacheKey = $config['cache']['key'] ?? 'laravel-acl_';
-        foreach($store as $key => $entry) {
-            if(strpos($key, $cacheKey . $this->id) !== false) {
-                Cache::forget($key);
-            }
-        }
-    }
 
     /**
      * Check if the user has any of the given permissions
