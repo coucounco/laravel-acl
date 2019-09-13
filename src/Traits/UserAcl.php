@@ -3,6 +3,7 @@ namespace rohsyl\LaravelAcl\Traits;
 
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 trait UserAcl
 {
@@ -25,70 +26,89 @@ trait UserAcl
         // ignore if the permission doesn't exists in the configuration
         if(!isset($config['permissions'][$permission])) return null;
 
+
         $permissionId = $config['permissions'][$permission];
 
-        $userAcl = null;
-        $groupAcl = null;
+        $key = $config['cache']['key'] ?? 'laravel-acl_';
+        $expirationTime = $config['cache']['expiration_time'] ?? 600;
+        return Cache::remember($key . $this->id . ':' . $permissionId . ':' . $level, $expirationTime, function() use ($config, $arguments, $permissionId, $level) {
 
-        if(!$config['model']['user']['enableAcl'] && !$config['model']['group']['enableAcl']) return true;
+            $userAcl = null;
+            $groupAcl = null;
 
-        // if the user acl is enabled
-        if($config['model']['user']['enableAcl']) {
-            $userAcl = $this->getAcl();
-        }
+            if(!$config['model']['user']['enableAcl'] && !$config['model']['group']['enableAcl']) return true;
 
-        // if the group acl is enabled
-        if($config['model']['group']['enableAcl']) {
-            // if one or many groups is given in parameter, then check the permissions only for the given groups
-            if(is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
-                // if a collection of groups is given, then we merge the acl with a permissiv strategy
-                // we also filter the collection to remove groups that not belongs to the user
-                if($arguments[ACL_ARG_GROUP] instanceof Collection) {
-                    $groupAcl = $this->aclMergeCollection($this->aclFilter($arguments[ACL_ARG_GROUP]));
-                }
-                // we check the the group belongs to the user and then get the acl
-                else {
-                    $group = $this->aclFilter($arguments[ACL_ARG_GROUP]);
-                    if(isset($group)) {
-                        $groupAcl = $group->{$config['model']['group']['attributeName']};
-                        $groupAcl = isset($groupAcl) && !empty($groupAcl) ? $groupAcl : $this->getDefaultAcl();
+            // if the user acl is enabled
+            if($config['model']['user']['enableAcl']) {
+                $userAcl = $this->getAcl();
+            }
+
+            // if the group acl is enabled
+            if($config['model']['group']['enableAcl']) {
+                // if one or many groups is given in parameter, then check the permissions only for the given groups
+                if(is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
+                    // if a collection of groups is given, then we merge the acl with a permissiv strategy
+                    // we also filter the collection to remove groups that not belongs to the user
+                    if($arguments[ACL_ARG_GROUP] instanceof Collection) {
+                        $groupAcl = $this->aclMergeCollection($this->aclFilter($arguments[ACL_ARG_GROUP]));
+                    }
+                    // we check the the group belongs to the user and then get the acl
+                    else {
+                        $group = $this->aclFilter($arguments[ACL_ARG_GROUP]);
+                        if(isset($group)) {
+                            $groupAcl = $group->{$config['model']['group']['attributeName']};
+                            $groupAcl = isset($groupAcl) && !empty($groupAcl) ? $groupAcl : $this->getDefaultAcl();
+                        }
                     }
                 }
+                // if no groups given, then get all groups and merge the acl
+                else {
+                    $groupAcl = $this->aclMergeCollection($this->{$config['model']['group']['relationship']});
+                }
+
             }
-            // if no groups given, then get all groups and merge the acl
+
+            // if user and group has ACL, merge it
+            if(isset($userAcl) && isset($groupAcl)) {
+                $acl = $this->aclMerge([$userAcl, $groupAcl]);
+            }
+            // else return the user acl or the group or null
             else {
-                $groupAcl = $this->aclMergeCollection($this->{$config['model']['group']['relationship']});
+                $acl = $userAcl ?? $groupAcl ?? null;
             }
 
+            // if the user is admin, grant the access
+            // else check if the user has the permission
+            $granted = $this->aclIsAdmin($acl) || $this->aclIsPermissionGranted($permissionId, $acl, $level);
+
+            /*
+                    ddd([
+                        'min_level' => $level,
+                        'permission' => [
+                            'name' => $permission,
+                            'id' => $permissionId
+                        ],
+                        'acl' => $acl,
+                        'granted' => $granted ? 'true' : 'false',
+                        'permissions' => $config['permissions']
+                    ]);
+            */
+
+            return $granted;
+        });
+    }
+
+    /**
+     * Clear all cache entries for this user
+     */
+    public function aclClearCache() {
+        $store = Cache::getStore();
+        $cacheKey = $config['cache']['key'] ?? 'laravel-acl_';
+        foreach($store as $key => $entry) {
+            if(strpos($key, $cacheKey . $this->id) !== false) {
+                Cache::forget($key);
+            }
         }
-
-        // if user and group has ACL, merge it
-        if(isset($userAcl) && isset($groupAcl)) {
-            $acl = $this->aclMerge([$userAcl, $groupAcl]);
-        }
-        // else return the user acl or the group or null
-        else {
-            $acl = $userAcl ?? $groupAcl ?? null;
-        }
-
-        // if the user is admin, grant the access
-        // else check if the user has the permission
-        $granted = $this->aclIsAdmin($acl) || $this->aclIsPermissionGranted($permissionId, $acl, $level);
-
-/*
-        ddd([
-            'min_level' => $level,
-            'permission' => [
-                'name' => $permission,
-                'id' => $permissionId
-            ],
-            'acl' => $acl,
-            'granted' => $granted ? 'true' : 'false',
-            'permissions' => $config['permissions']
-        ]);
-*/
-
-        return $granted;
     }
 
     /**

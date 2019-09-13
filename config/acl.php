@@ -58,5 +58,11 @@ return [
              */
             'attributeName' => 'acl',
         ]
+    ],
+
+    'cache' => [
+        'key' => 'laravel-acl_',
+        'store' => '',
+        'expiration_time' => 600
     ]
 ];
