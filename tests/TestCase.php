@@ -34,6 +34,7 @@ class TestCase extends Orchestra
 
         $this->testUser = User::first();
         $this->testGroups = Group::all();
+        $this->testUser->aclClearCache();
     }
 
     /**

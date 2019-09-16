@@ -4,6 +4,7 @@
 namespace rohsyl\LaravelAcl\Traits;
 
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 trait Acl
@@ -13,16 +14,14 @@ trait Acl
      * Clear all cache entries for this user
      */
     public function aclClearCache() {
-        Cache::flush();
-        // TODO: improve caching
-        /*
-        $store = Cache::getStore();
-        $cacheKey = $config['cache']['key'] ?? 'laravel-acl_';
-        foreach($store as $key => $entry) {
-            if(strpos($key, $cacheKey . $this->id) !== false) {
-                Cache::forget($key);
-            }
-        }*/
+        $driver = config('cache.default');
+        // Cache tags are not supported when using the file or  database cache drivers.
+        if($driver == 'file' || $driver == 'database') {
+            Cache::flush();
+        }
+        else {
+            Cache::tags('laravel-acl-user-'.$this->id)->flush();
+        }
     }
 
     /**
@@ -105,6 +104,32 @@ trait Acl
             $acl = str_pad($acl, $permissionId+1, ACL_NONE, STR_PAD_LEFT);
         }
         $acl[-1*($permissionId+1)] = $level;
+    }
+
+    private function getCacheKey($permissionId = null, $level = null, $teams = null) {
+        $cacheKey = config('acl.cache.key') ?? 'laravel-acl_';
+        $key = $cacheKey . $this->id;
+
+        if(isset($permissionId)) {
+            $key .= ':' . $permissionId;
+
+            if(isset($level)) {
+                $key .= ':' . $level;
+            }
+
+            if (isset($teams)) {
+                if(config('acl.model.group.enableAcl')) {
+                    if($teams instanceof Collection) {
+                        $key .= '_g:' . $teams->pluck('id')->join(',');
+                    }
+                    else {
+                        $key .= '_g:' . $teams->id;
+                    }
+                }
+            }
+        }
+
+        return $key;
     }
 
     public function aclModelType() {

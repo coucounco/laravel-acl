@@ -21,43 +21,30 @@ trait UserAcl
 
         $level = is_array($arguments) ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE : $arguments;
 
-        $config = config('acl');
-
         // ignore if the permission doesn't exists in the configuration
-        if(!isset($config['permissions'][$permission])) return null;
+        if(config('acl.permissions.'.$permission) == null) return null;
 
+        $permissionId = config('acl.permissions.'.$permission);
+        $cacheExpirationTime = config('acl.cache.expiration_time') ?? 60 * 60 * 24 * 5;
 
-        $permissionId = $config['permissions'][$permission];
+        $teams = is_array($arguments) && isset($arguments[ACL_ARG_GROUP]) ? $arguments[ACL_ARG_GROUP] : null;
+        $key = $this->getCacheKey($permissionId, $level, $teams);
 
-        $cacheKey = $config['cache']['key'] ?? 'laravel-acl_';
-        $cacheExpirationTime = $config['cache']['expiration_time'] ?? 60 * 60 * 24 * 5;
-        $key = $cacheKey . $this->id . ':' . $permissionId . ':' . $level;
-        if($config['model']['group']['enableAcl']) {
-            // if one or many groups is given in parameter, then check the permissions only for the given groups
-            if (is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
-                if($arguments[ACL_ARG_GROUP] instanceof Collection) {
-                    $key .= '_g:' . $arguments[ACL_ARG_GROUP]->pluck('id')->join(',');
-                }
-                // we check the the group belongs to the user and then get the acl
-                else {
-                    $key .= '_g:' . $arguments[ACL_ARG_GROUP]->id;
-                }
-            }
-        }
-        return Cache::remember($key, $cacheExpirationTime, function() use ($config, $arguments, $permissionId, $level) {
+        $closure = function() use ($arguments, $permissionId, $level) {
 
             $userAcl = null;
             $groupAcl = null;
 
-            if(!$config['model']['user']['enableAcl'] && !$config['model']['group']['enableAcl']) return true;
+            // if the acl is disabled for both user and group
+            if(!config('acl.model.user.enableAcl') && !config('acl.model.group.enableAcl')) return null;
 
             // if the user acl is enabled
-            if($config['model']['user']['enableAcl']) {
+            if(config('acl.model.user.enableAcl')) {
                 $userAcl = $this->getAcl();
             }
 
             // if the group acl is enabled
-            if($config['model']['group']['enableAcl']) {
+            if(config('acl.model.group.enableAcl')) {
                 // if one or many groups is given in parameter, then check the permissions only for the given groups
                 if(is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
                     // if a collection of groups is given, then we merge the acl with a permissiv strategy
@@ -69,14 +56,14 @@ trait UserAcl
                     else {
                         $group = $this->aclFilter($arguments[ACL_ARG_GROUP]);
                         if(isset($group)) {
-                            $groupAcl = $group->{$config['model']['group']['attributeName']};
+                            $groupAcl = $group->{config('acl.model.group.attributeName')};
                             $groupAcl = isset($groupAcl) && !empty($groupAcl) ? $groupAcl : $this->getDefaultAcl();
                         }
                     }
                 }
                 // if no groups given, then get all groups and merge the acl
                 else {
-                    $groupAcl = $this->aclMergeCollection($this->{$config['model']['group']['relationship']});
+                    $groupAcl = $this->aclMergeCollection($this->{config('acl.model.group.relationship')});
                 }
 
             }
@@ -92,23 +79,17 @@ trait UserAcl
 
             // if the user is admin, grant the access
             // else check if the user has the permission
-            $granted = $this->aclIsAdmin($acl) || $this->aclIsPermissionGranted($permissionId, $acl, $level);
+            return $this->aclIsAdmin($acl) || $this->aclIsPermissionGranted($permissionId, $acl, $level);
+        };
 
-            /*
-                    ddd([
-                        'min_level' => $level,
-                        'permission' => [
-                            'name' => $permission,
-                            'id' => $permissionId
-                        ],
-                        'acl' => $acl,
-                        'granted' => $granted ? 'true' : 'false',
-                        'permissions' => $config['permissions']
-                    ]);
-            */
-
-            return $granted;
-        });
+        // Cache tags are not supported when using the file or  database cache drivers.
+        $driver = config('cache.default');
+        if($driver == 'file' || $driver == 'database') {
+            return Cache::remember($key, $cacheExpirationTime, $closure);
+        }
+        else {
+            return Cache::tags(['laravel-acl', 'laravel-acl-user-'.$this->id])->remember($key, $cacheExpirationTime, $closure);
+        }
     }
 
 

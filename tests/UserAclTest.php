@@ -8,6 +8,13 @@ class UserAclTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function test_permission_doesnt_exists() {
+
+        $this->assertFalse($this->testUser->can('user', [ACL_READ]));
+        $this->assertNull($this->testUser->hasAcl('permissions_that_doesnt_exists', [ACL_READ]));
+        //$this->assertNull($this->testUser->can('permissions_that_doesnt_exists', [ACL_READ]));
+    }
+
     public function test_simple_acl() {
 
         $this->testUser->grantPermission('user', ACL_READ);

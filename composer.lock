@@ -191,12 +191,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23"
+                "reference": "950d0663dc81e4ef3da2d406a8f3978bc9938bb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/92dd169c32f6f55ba570c309d83f5209cefb5e23",
-                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/950d0663dc81e4ef3da2d406a8f3978bc9938bb2",
+                "reference": "950d0663dc81e4ef3da2d406a8f3978bc9938bb2",
                 "shasum": ""
             },
             "require": {
@@ -241,7 +241,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2019-08-13T17:33:27+00:00"
+            "time": "2019-09-15T20:23:48+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -295,12 +295,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c759a65982711db7f7f73de37cf073784067ffa0"
+                "reference": "7d7966b4e3739fa0ffc90cd6c9265db6a7669fba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c759a65982711db7f7f73de37cf073784067ffa0",
-                "reference": "c759a65982711db7f7f73de37cf073784067ffa0",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7d7966b4e3739fa0ffc90cd6c9265db6a7669fba",
+                "reference": "7d7966b4e3739fa0ffc90cd6c9265db6a7669fba",
                 "shasum": ""
             },
             "require": {
@@ -432,7 +432,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-09-12T20:13:37+00:00"
+            "time": "2019-09-15T21:23:25+00:00"
         },
         {
             "name": "league/flysystem",
@@ -601,16 +601,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.25.0-beta.1",
+            "version": "2.25.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a333fc82bf1ebfc0f90e359fec7d2d4eac7f4a18"
+                "reference": "380e7daf0daa68f87757e4e6dbb528ab61a5eb9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a333fc82bf1ebfc0f90e359fec7d2d4eac7f4a18",
-                "reference": "a333fc82bf1ebfc0f90e359fec7d2d4eac7f4a18",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/380e7daf0daa68f87757e4e6dbb528ab61a5eb9c",
+                "reference": "380e7daf0daa68f87757e4e6dbb528ab61a5eb9c",
                 "shasum": ""
             },
             "require": {
@@ -664,7 +664,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-09-09T15:56:37+00:00"
+            "time": "2019-09-13T20:03:07+00:00"
         },
         {
             "name": "opis/closure",
@@ -1655,12 +1655,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "04bd1f5c4c469ed18c616606563f08fd3a1c9607"
+                "reference": "ea720c035eeb14d2aa987cfce37afeab1a9ac9da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/04bd1f5c4c469ed18c616606563f08fd3a1c9607",
-                "reference": "04bd1f5c4c469ed18c616606563f08fd3a1c9607",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/ea720c035eeb14d2aa987cfce37afeab1a9ac9da",
+                "reference": "ea720c035eeb14d2aa987cfce37afeab1a9ac9da",
                 "shasum": ""
             },
             "require": {
@@ -1741,7 +1741,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2019-09-10T15:04:34+00:00"
+            "time": "2019-09-13T15:44:53+00:00"
         },
         {
             "name": "symfony/mime",
@@ -2716,12 +2716,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "7a6c3f40f9168f5759d8c8faeac8e525feedf031"
+                "reference": "8ae720b21f17a85ff8be60971c7cff1d04564c7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7a6c3f40f9168f5759d8c8faeac8e525feedf031",
-                "reference": "7a6c3f40f9168f5759d8c8faeac8e525feedf031",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/8ae720b21f17a85ff8be60971c7cff1d04564c7b",
+                "reference": "8ae720b21f17a85ff8be60971c7cff1d04564c7b",
                 "shasum": ""
             },
             "require": {
@@ -2758,7 +2758,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2019-09-12T12:55:44+00:00"
+            "time": "2019-09-14T08:32:53+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -2927,12 +2927,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "5efd65ec3d545379f8eb1571eacae324edd8d826"
+                "reference": "36234fc7bb4bac784fee83e4888c5eb10d5c7fe4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/5efd65ec3d545379f8eb1571eacae324edd8d826",
-                "reference": "5efd65ec3d545379f8eb1571eacae324edd8d826",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/36234fc7bb4bac784fee83e4888c5eb10d5c7fe4",
+                "reference": "36234fc7bb4bac784fee83e4888c5eb10d5c7fe4",
                 "shasum": ""
             },
             "require": {
@@ -2969,7 +2969,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-09-03T21:28:19+00:00"
+            "time": "2019-09-16T01:29:00+00:00"
         },
         {
             "name": "orchestra/testbench-core",
@@ -2977,12 +2977,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "efc0d864283d527caf5f5657b9c58e4daa3c513e"
+                "reference": "0091a0f1b6493fa445379c58c4d0b757ea4ee2ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/efc0d864283d527caf5f5657b9c58e4daa3c513e",
-                "reference": "efc0d864283d527caf5f5657b9c58e4daa3c513e",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/0091a0f1b6493fa445379c58c4d0b757ea4ee2ee",
+                "reference": "0091a0f1b6493fa445379c58c4d0b757ea4ee2ee",
                 "shasum": ""
             },
             "require": {
@@ -3034,7 +3034,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-09-13T04:26:25+00:00"
+            "time": "2019-09-15T08:17:06+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3613,12 +3613,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "e7e7525d5587783173ab050d8a64bd944028e15e"
+                "reference": "67641d70f1cbe226f709667d0b25ac35fea0e9cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e7e7525d5587783173ab050d8a64bd944028e15e",
-                "reference": "e7e7525d5587783173ab050d8a64bd944028e15e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/67641d70f1cbe226f709667d0b25ac35fea0e9cb",
+                "reference": "67641d70f1cbe226f709667d0b25ac35fea0e9cb",
                 "shasum": ""
             },
             "require": {
@@ -3688,7 +3688,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-09-10T09:01:49+00:00"
+            "time": "2019-09-14T09:14:09+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3914,12 +3914,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "05e2a220e5e41ed9e8a38d4a5a1cf9bf1fa9fded"
+                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/05e2a220e5e41ed9e8a38d4a5a1cf9bf1fa9fded",
-                "reference": "05e2a220e5e41ed9e8a38d4a5a1cf9bf1fa9fded",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/68609e1261d215ea5b21b7987539cbfbe156ec3e",
+                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e",
                 "shasum": ""
             },
             "require": {
@@ -3973,7 +3973,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2019-09-10T15:13:45+00:00"
+            "time": "2019-09-14T09:02:43+00:00"
         },
         {
             "name": "sebastian/global-state",
