@@ -63,6 +63,6 @@ return [
     'cache' => [
         'key' => 'laravel-acl_',
         'store' => '',
-        'expiration_time' => 600
+        'expiration_time' => 432000
     ]
 ];

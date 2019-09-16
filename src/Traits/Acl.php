@@ -14,14 +14,14 @@ trait Acl
      * Clear all cache entries for this user
      */
     public function aclClearCache() {
-        $driver = config('cache.default');
+        //$driver = config('cache.default');
         // Cache tags are not supported when using the file or  database cache drivers.
-        if($driver == 'file' || $driver == 'database') {
+        //if($driver == 'file' || $driver == 'database') {
             Cache::flush();
-        }
-        else {
-            Cache::tags('laravel-acl-user-'.$this->id)->flush();
-        }
+        //}
+        //else {
+        //    Cache::tags('laravel-acl-user-'.$this->id)->flush();
+        //}
     }
 
     /**

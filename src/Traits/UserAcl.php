@@ -83,13 +83,13 @@ trait UserAcl
         };
 
         // Cache tags are not supported when using the file or  database cache drivers.
-        $driver = config('cache.default');
-        if($driver == 'file' || $driver == 'database') {
+        //$driver = config('cache.default');
+        //if($driver == 'file' || $driver == 'database') {
             return Cache::remember($key, $cacheExpirationTime, $closure);
-        }
-        else {
-            return Cache::tags(['laravel-acl', 'laravel-acl-user-'.$this->id])->remember($key, $cacheExpirationTime, $closure);
-        }
+        //}
+        //else {
+        //    return Cache::tags(['laravel-acl', 'laravel-acl-user-'.$this->id])->remember($key, $cacheExpirationTime, $closure);
+        //}
     }
 
 
