@@ -22,7 +22,7 @@ trait UserAcl
         $level = is_array($arguments) ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE : $arguments;
 
         // ignore if the permission doesn't exists in the configuration
-        if(config('acl.permissions.'.$permission) == null) return null;
+        if(config('acl.permissions.'.$permission) === null) return null;
 
         $permissionId = config('acl.permissions.'.$permission);
         $cacheExpirationTime = config('acl.cache.expiration_time') ?? 60 * 60 * 24 * 5;
