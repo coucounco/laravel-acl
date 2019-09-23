@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/rohsyl/laravel-acl.svg?branch=master)](https://travis-ci.org/rohsyl/laravel-acl)
 [![Total Downloads](https://poser.pugx.org/rohsyl/laravel-acl/downloads)](https://packagist.org/packages/rohsyl/laravel-acl)
 
-This is a package for laravel to provide Access Control List for Laravel >5.8.
+This is a package that provide Access Control List for Laravel >5.8.
 
 ## Getting started
 
