@@ -695,4 +695,35 @@ You can retrieve all roles with the helper method :
 $roles = acl_roles()
 ```
 
+### The `strict` option
 
+Sometimes, you will probably want to check if the user have strictly a permission.
+
+What does this mean ?
+
+**Exemple:**
+
+- `$user1` have the `superadmin` permission
+- `$user2` have the `is_manager` permission
+
+So when you check if the `$user1` have the `is_manager` permission : 
+
+```
+$user1->can('is_manager');
+```
+
+> this will return `true` even if he don't have the `is_manager` permission because he is `superadmin`.
+
+It's possible to check permissions with the strict parameter.
+
+```
+$user1->can('is_manager', ACL_STRCT);
+```
+
+> this will return `false` even if the user is `superadmin`.
+
+
+```
+$user2->can('is_manager', ACL_STRCT);
+```
+> this will return `true` because `$user2` have the `is_manager` permission.
