@@ -17,4 +17,10 @@ class HasAclTest extends TestCase
         $this->assertTrue($this->testUser->hasAcl('user', [ACL_UPDATE]));
         $this->assertFalse($this->testUser->hasAcl('user', [ACL_DELETE]));
     }
+
+    public function test_has_acl_strict() {
+        $this->testUser->grantPermission('superadmin', ACL_ALLOW);
+        $this->assertFalse($this->testUser->hasAcl('user', [ACL_STRICT]));
+        $this->assertTrue($this->testUser->hasAcl('user', ACL_READ));
+    }
 }

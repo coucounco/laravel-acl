@@ -106,7 +106,7 @@ trait Acl
         $acl[-1*($permissionId+1)] = $level;
     }
 
-    private function getCacheKey($permissionId = null, $level = null, $teams = null) {
+    private function getCacheKey($permissionId = null, $level = null, $teams = null, $strict = false) {
         $cacheKey = config('acl.cache.key') ?? 'laravel-acl_';
         $key = $cacheKey . $this->id;
 
@@ -127,6 +127,9 @@ trait Acl
                     }
                 }
             }
+        }
+        if($strict) {
+            $key .= '_strict';
         }
 
         return $key;

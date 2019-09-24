@@ -62,4 +62,21 @@ class UserAclTest extends TestCase
 
         $this->assertTrue($this->testUser->can('user', [ACL_DELETE]));
     }
+
+    public function test_can_with_no_level() {
+        $this->testUser->grantPermission('user', ACL_READ);
+        $this->assertTrue($this->testUser->can('user'));
+    }
+
+    public function test_can_with_level() {
+        $this->testUser->grantPermission('user', ACL_READ);
+        $this->assertTrue($this->testUser->can('user', ACL_READ));
+    }
+
+
+    public function test_can_strict() {
+        $this->testUser->grantPermission('superadmin', ACL_ALLOW);
+        $this->assertFalse($this->testUser->can('user', ACL_STRICT));
+        $this->assertTrue($this->testUser->can('user'));
+    }
 }

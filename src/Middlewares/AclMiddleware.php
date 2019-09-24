@@ -23,6 +23,12 @@ class AclMiddleware
             return [$item[0] => $item[1]];
         }, $roles);
 
+        /*$out = [];
+        foreach($roles as $role) {
+            $item = explode(':', $role);
+            $out[$item[0]] = $item[1];
+        }*/
+
         if (! Auth::user()->hasAclAny($roles)) {
             throw UnauthorizedException::forPermissions();
         }

@@ -7,7 +7,8 @@ define('ACL_UPDATE',    3);
 define('ACL_DELETE',    4);
 
 define('ACL_DENY',      0);
-define('ACL_ALLOW',      1);
+define('ACL_ALLOW',     1);
+define('ACL_STRICT',   10);
 
 define('ACL_ARG_LEVEL', 0);
 define('ACL_ARG_GROUP', 1);

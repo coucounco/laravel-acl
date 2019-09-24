@@ -18,19 +18,23 @@ trait UserAcl
      * @return bool True if the access is granted
      */
     public function hasAcl(string $permission, $arguments) {
-
-        $level = is_array($arguments) ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE : $arguments;
-
         // ignore if the permission doesn't exists in the configuration
         if(config('acl.permissions.'.$permission) === null) return null;
 
+        $level = is_array($arguments) ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE : $arguments;
+
+        // strict is used to check if the user strictly have the given permission.
+        // if the user don't have it, false will be returned even if the user is superadmin
+        $strict = false;
+        if($level === ACL_STRICT) {
+            $strict = true;
+            $level = ACL_ALLOW;
+        }
+
         $permissionId = config('acl.permissions.'.$permission);
-        $cacheExpirationTime = config('acl.cache.expiration_time') ?? 60 * 60 * 24 * 5;
-
         $teams = is_array($arguments) && isset($arguments[ACL_ARG_GROUP]) ? $arguments[ACL_ARG_GROUP] : null;
-        $key = $this->getCacheKey($permissionId, $level, $teams);
 
-        $closure = function() use ($arguments, $permissionId, $level) {
+        $closure = function() use ($arguments, $permissionId, $level, $strict) {
 
             $userAcl = null;
             $groupAcl = null;
@@ -77,15 +81,25 @@ trait UserAcl
                 $acl = $userAcl ?? $groupAcl ?? null;
             }
 
-            // if the user is admin, grant the access
-            // else check if the user has the permission
-            return $this->aclIsAdmin($acl) || $this->aclIsPermissionGranted($permissionId, $acl, $level);
+            // the strict option check if the user has the given permission only
+            // so if the user didn't have this permission, false will be returned, even if the user is admin
+            if($strict) {
+                return $this->aclIsPermissionGranted($permissionId, $acl, $level);
+            }
+            else {
+                // if the user is admin, grant the access
+                // else check if the user has the permission
+                return $this->aclIsAdmin($acl) || $this->aclIsPermissionGranted($permissionId, $acl, $level);
+            }
         };
+
+        $key = $this->getCacheKey($permissionId, $level, $teams, $strict);
+        $cacheExpirationTime = config('acl.cache.expiration_time') ?? 60 * 60 * 24 * 5;
 
         // Cache tags are not supported when using the file or  database cache drivers.
         //$driver = config('cache.default');
         //if($driver == 'file' || $driver == 'database') {
-            return Cache::remember($key, $cacheExpirationTime, $closure);
+        return Cache::remember($key, $cacheExpirationTime, $closure);
         //}
         //else {
         //    return Cache::tags(['laravel-acl', 'laravel-acl-user-'.$this->id])->remember($key, $cacheExpirationTime, $closure);
