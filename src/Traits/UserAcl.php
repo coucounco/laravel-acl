@@ -20,7 +20,7 @@ trait UserAcl
     public function hasAcl(string $permission, $arguments) {
         // ignore if the permission doesn't exists in the configuration
         $config = config('acl.permissions');
-        if(isset($config[$permission])) return null;
+        if(!isset($config[$permission])) return null;
 
         $level = is_array($arguments)
             ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE
