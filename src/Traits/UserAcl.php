@@ -19,9 +19,12 @@ trait UserAcl
      */
     public function hasAcl(string $permission, $arguments) {
         // ignore if the permission doesn't exists in the configuration
-        if(config('acl.permissions')[$permission] === null) return null;
+        $config = config('acl.permissions');
+        if(isset($config[$permission])) return null;
 
-        $level = is_array($arguments) ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE : $arguments;
+        $level = is_array($arguments)
+            ? $arguments[ACL_ARG_LEVEL] ?? ACL_NONE
+            : $arguments;
 
         // strict is used to check if the user strictly have the given permission.
         // if the user don't have it, false will be returned even if the user is superadmin
@@ -31,7 +34,7 @@ trait UserAcl
             $level = ACL_ALLOW;
         }
 
-        $permissionId = config('acl.permissions')[$permission];
+        $permissionId = $config[$permission];
         $teams = is_array($arguments) && isset($arguments[ACL_ARG_GROUP]) ? $arguments[ACL_ARG_GROUP] : null;
 
         $closure = function() use ($arguments, $permissionId, $level, $strict) {
