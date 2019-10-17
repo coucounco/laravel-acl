@@ -39,6 +39,18 @@ class MiddlewareTest extends TestCase
         $this->assertEquals($status, 200);
     }
 
+    public function test_user_can_access_no_parameter() {
+        $this->be($this->testUser);
+
+        $this->testUser->grantPermission('user',  ACL_READ);
+
+        $status = $this->runMiddleware(
+            $this->middleware, 'user'
+        );
+
+        $this->assertEquals($status, 200);
+    }
+
     public function test_user_cannot_access() {
         $this->be($this->testUser);
 

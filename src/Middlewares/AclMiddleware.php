@@ -20,14 +20,8 @@ class AclMiddleware
 
         $roles = array_map(function($item){
             $item = explode(':', $item);
-            return [$item[0] => $item[1]];
+            return [$item[0] => $item[1] ?? ACL_ALLOW];
         }, $roles);
-
-        /*$out = [];
-        foreach($roles as $role) {
-            $item = explode(':', $role);
-            $out[$item[0]] = $item[1];
-        }*/
 
         if (! Auth::user()->hasAclAny($roles)) {
             throw UnauthorizedException::forPermissions();
