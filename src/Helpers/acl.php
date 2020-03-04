@@ -67,9 +67,3 @@ if(!function_exists('acl_permission_level')) {
         return $acl[-1 * ($permissionId + 1)] ?? ACL_NONE;
     }
 }
-
-function ddd($var) {
-    echo '<pre>';
-    print_r($var);
-    echo '</pre>';
-}
