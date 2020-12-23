@@ -10,10 +10,10 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^7.3",
-        "illuminate/auth": "^5.8|^6.0|^7.0",
-        "illuminate/container": "^5.8|^6.0|^7.0",
-        "illuminate/contracts": "^5.8|^6.0|^7.0",
-        "illuminate/database": "^5.8|^6.0|^7.0"
+        "illuminate/auth": "^6.0|^7.0",
+        "illuminate/container": "^6.0|^7.0",
+        "illuminate/contracts": "^6.0|^7.0",
+        "illuminate/database": "^6.0|^7.0"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0",
