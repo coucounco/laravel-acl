@@ -15,8 +15,9 @@ return [
      */
     'permissions' => [
         'superadmin' => 0,
-
-        'profiling' => 10,
+        'user' => 1,
+        'group' => 2,
+        'page' => 3,
     ],
 
     /**
