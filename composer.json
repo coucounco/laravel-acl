@@ -9,14 +9,14 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.3",
-        "illuminate/auth": "^6.0|^7.0",
-        "illuminate/container": "^6.0|^7.0",
-        "illuminate/contracts": "^6.0|^7.0",
-        "illuminate/database": "^6.0|^7.0"
+        "php": "^7.3|^7.4|^8.0",
+        "illuminate/auth": "^6.0|^7.0|^8.0",
+        "illuminate/container": "^6.0|^7.0|^8.0",
+        "illuminate/contracts": "^6.0|^7.0|^8.0",
+        "illuminate/database": "^6.0|^7.0|^8.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^5.0",
+        "orchestra/testbench": "^5.0|^6.0",
         "phpunit/phpunit": "^9.0"
     },
     "autoload": {

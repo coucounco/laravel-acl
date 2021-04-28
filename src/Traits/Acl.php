@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 trait Acl
 {
+    protected $acls = null;
 
     /**
      * Clear all cache entries for this user
@@ -42,7 +43,7 @@ trait Acl
      */
     public function grantPermissions(array $permissions) {
         $this->aclClearCache();
-        if(config('acl')['model'][$this->acl_model]['enableAcl']) {
+        if($this->getConfig()['model'][$this->acl_model]['enableAcl']) {
             $acl = $this->getAcl();
             foreach($permissions as $permission => $level) {
                 $this->updateAclPermission($acl, $permission, $level);
@@ -76,7 +77,8 @@ trait Acl
      * @return mixed
      */
     private function getAcl() {
-        $acl = $this->{config('acl')['model'][$this->acl_model]['attributeName']};
+        $attributeName = $this->getConfig()['model'][$this->acl_model]['attributeName'];
+        $acl = $this->$attributeName;
         return isset($acl) && !empty($acl) ? $acl : $this->getDefaultAcl();
     }
 
@@ -89,7 +91,7 @@ trait Acl
      * @param $acl string
      */
     private function setAcl($acl) {
-        $this->{config('acl')['model'][$this->acl_model]['attributeName']} = $acl;
+        $this->{$this->getConfig()['model'][$this->acl_model]['attributeName']} = $acl;
     }
 
     /**
@@ -99,7 +101,7 @@ trait Acl
      * @param $level mixed
      */
     private function updateAclPermission(&$acl, $permission, $level) {
-        $permissionId = config('acl')['permissions'][$permission];
+        $permissionId = $this->getPermissions()[$permission];
         if(strlen($acl) < $permissionId) {
             $acl = str_pad($acl, $permissionId+1, ACL_NONE, STR_PAD_LEFT);
         }
@@ -137,5 +139,17 @@ trait Acl
 
     public function aclModelType() {
         return $this->acl_model;
+    }
+
+    private function getAcls() {
+        return $this->acls ?? config('acl.models')[get_class($this)] ?? config('acl.defaults.acls', 'users');
+    }
+
+    private function getPermissions() {
+        return acl_permissions($this->getAcls());
+    }
+
+    private function getConfig($config = null) {
+        return config('acl.'.$this->getAcls() . (isset($config) ? '.' . $config : ''));
     }
 }

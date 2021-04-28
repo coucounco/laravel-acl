@@ -18,8 +18,9 @@ if(!function_exists('acl_permissions')) {
      * Get all permissions
      * @return array
      */
-    function acl_permissions() {
-        return config('acl.permissions');
+    function acl_permissions($acls = null) {
+        $acls = $acls ?? config('acl.defaults.acls', 'users');
+        return config('acl.'.$acls.'.permissions');
     }
 }
 
@@ -29,7 +30,8 @@ if(!function_exists('acl_roles')) {
      * @return array
      */
     function acl_roles() {
-        return config('acl.roles');
+        $acls = $acls ?? config('acl.defaults.acls', 'users');
+        return config('acl.'.$acls.'.roles');
     }
 }
 

@@ -19,7 +19,7 @@ trait UserAcl
      */
     public function hasAcl(string $permission, $arguments) {
         // ignore if the permission doesn't exists in the configuration
-        $config = config('acl.permissions');
+        $config = $this->getPermissions();
         if(!isset($config[$permission])) return null;
 
         $level = is_array($arguments)
@@ -42,16 +42,17 @@ trait UserAcl
             $userAcl = null;
             $groupAcl = null;
 
+
             // if the acl is disabled for both user and group
-            if(!config('acl.model.user.enableAcl') && !config('acl.model.group.enableAcl')) return null;
+            if(!$this->getConfig('model.user.enableAcl') && !$this->getConfig('model.group.enableAcl')) return null;
 
             // if the user acl is enabled
-            if(config('acl.model.user.enableAcl')) {
+            if($this->getConfig('model.user.enableAcl')) {
                 $userAcl = $this->getAcl();
             }
 
             // if the group acl is enabled
-            if(config('acl.model.group.enableAcl')) {
+            if($this->getConfig('model.group.enableAcl')) {
                 // if one or many groups is given in parameter, then check the permissions only for the given groups
                 if(is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
                     // if a collection of groups is given, then we merge the acl with a permissiv strategy
@@ -63,14 +64,14 @@ trait UserAcl
                     else {
                         $group = $this->aclFilter($arguments[ACL_ARG_GROUP]);
                         if(isset($group)) {
-                            $groupAcl = $group->{config('acl.model.group.attributeName')};
+                            $groupAcl = $group->{$this->getConfig('model.group.attributeName')};
                             $groupAcl = isset($groupAcl) && !empty($groupAcl) ? $groupAcl : $this->getDefaultAcl();
                         }
                     }
                 }
                 // if no groups given, then get all groups and merge the acl
                 else {
-                    $groupAcl = $this->aclMergeCollection($this->{config('acl.model.group.relationship')});
+                    $groupAcl = $this->aclMergeCollection($this->{$this->getConfig('model.group.relationship')});
                 }
 
             }
@@ -102,7 +103,12 @@ trait UserAcl
         // Cache tags are not supported when using the file or  database cache drivers.
         //$driver = config('cache.default');
         //if($driver == 'file' || $driver == 'database') {
-        return Cache::remember($key, $cacheExpirationTime, $closure);
+        if(config('acl.cache.enable')) {
+            return Cache::remember($key, $cacheExpirationTime, $closure);
+        }
+        else {
+            return $closure();
+        }
         //}
         //else {
         //    return Cache::tags(['laravel-acl', 'laravel-acl-user-'.$this->id])->remember($key, $cacheExpirationTime, $closure);
@@ -131,7 +137,7 @@ trait UserAcl
      */
     private function aclMergeCollection(Collection $groups = null) {
         if(!isset($groups)) return null;
-        $groups = $groups->pluck(config('acl')['model']['group']['attributeName'])->toArray();
+        $groups = $groups->pluck($this->getConfig('model.group.attributeName'))->toArray();
         return $this->aclMerge($groups);
     }
 
@@ -141,7 +147,7 @@ trait UserAcl
      * @return string The merged acl
      */
     private function aclMerge(array $groups) {
-        $count = max(array_values(config('acl')['permissions'])) + 1;
+        $count = max(array_values($this->getPermissions())) + 1;
         $out = str_repeat(ACL_NONE, $count );
         for($i = 0; $i < $count; $i++) {
             $permMerged = ACL_NONE;
@@ -204,6 +210,6 @@ trait UserAcl
      */
     private function aclIsAdmin($acl) {
         if(!isset($acl)) return false;
-        return $acl[-1*(config('acl')['permissions']['superadmin']+1)] == ACL_ALLOW;
+        return $acl[-1*($this->getConfig('permissions.superadmin')+1)] == ACL_ALLOW;
     }
 }

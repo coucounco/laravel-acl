@@ -12,7 +12,8 @@ class ServiceProvider extends SP
     {
         $this->publishes([
             __DIR__ . '/../config/acl.php' => config_path('acl.php'),
-            ], 'config');
+            __DIR__ . '/../config/acl/users.php' => config_path('acl/users.php'),
+        ], 'config');
 
         if (app()->version() >= '5.5') {
             $this->registerMacroHelpers();
