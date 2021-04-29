@@ -29,7 +29,7 @@ if(!function_exists('acl_roles')) {
      * Get all roles
      * @return array
      */
-    function acl_roles() {
+    function acl_roles($acls = null) {
         $acls = $acls ?? config('acl.defaults.acls', 'users');
         return config('acl.'.$acls.'.roles');
     }
@@ -62,10 +62,11 @@ if(!function_exists('acl_empty')) {
 
 
 if(!function_exists('acl_permission_level')) {
-    function acl_permission_level($entity, $permission)
+    function acl_permission_level($entity, $permission, $acls = null)
     {
-        $column = config('acl')['model'][$entity->aclModelType()]['attributeName'];
-        $permissionId = config('acl')['permissions'][$permission];
+        $acls = $acls ?? config('acl.defaults.acls', 'users');
+        $column = config('acl.'.$acls)['model'][$entity->aclModelType()]['attributeName'];
+        $permissionId = config('acl.'.$acls)['permissions'][$permission];
         $acl = isset($entity->$column) && !empty($entity->$column) ? $entity->$column : acl_empty();
         return $acl[-1 * ($permissionId + 1)] ?? ACL_NONE;
     }
