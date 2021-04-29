@@ -6,7 +6,7 @@ return [
     ],
 
     'models' => [
-        \rohsyl\OmegaCore\Models\User::class => 'users',
+        App\Models\User::class => 'users',
     ],
 
     'cache' => [
@@ -14,5 +14,5 @@ return [
         'key' => 'laravel-acl_',
         'store' => '',
         'expiration_time' => 432000
-    ]
+    ],
 ];

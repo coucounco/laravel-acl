@@ -53,10 +53,12 @@ trait UserAcl
 
             // if the group acl is enabled
             if($this->getConfig('model.group.enableAcl')) {
+
                 // if one or many groups is given in parameter, then check the permissions only for the given groups
                 if(is_array($arguments) && isset($arguments[ACL_ARG_GROUP])) {
                     // if a collection of groups is given, then we merge the acl with a permissiv strategy
                     // we also filter the collection to remove groups that not belongs to the user
+
                     if($arguments[ACL_ARG_GROUP] instanceof Collection) {
                         $groupAcl = $this->aclMergeCollection($this->aclFilter($arguments[ACL_ARG_GROUP]));
                     }

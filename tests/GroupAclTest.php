@@ -32,8 +32,8 @@ class GroupAclTest extends TestCase
 
         $group1->grantPermission('user', ACL_CREATE);
         $group1->save();
-        $group2->grantPermission('user', ACL_DELETE);
         $group2->grantPermission('page', ACL_CREATE);
+        $group2->grantPermission('user', ACL_DELETE);
         $group2->save();
 
         $this->assertTrue($this->testUser->can('user', [ACL_CREATE, $group1]));

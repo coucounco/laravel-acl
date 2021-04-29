@@ -14,7 +14,7 @@ class CacheAclTest extends TestCase
         $this->testUser->grantPermission('user', ACL_READ);
 
         $cacheKey = config('acl.cache.key') ?? 'laravel-acl_';
-        $permissionId = config('acl.permissions.user');
+        $permissionId = config('acl.users.permissions.user');
         $level = ACL_READ;
         $key = $cacheKey . $this->testUser->id . ':' . $permissionId . ':' . $level;
 

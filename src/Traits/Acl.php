@@ -68,7 +68,7 @@ trait Acl
      * @param array|null $permissions
      */
     public function revokePermissions(array $permissions = null) {
-        $permissions = $permissions ?? array_keys(config('acl')['permissions']);
+        $permissions = $permissions ?? array_keys($this->getPermissions());
         $this->grantPermissions(array_fill_keys($permissions, ACL_NONE));
     }
 
@@ -77,8 +77,7 @@ trait Acl
      * @return mixed
      */
     private function getAcl() {
-        $attributeName = $this->getConfig()['model'][$this->acl_model]['attributeName'];
-        $acl = $this->$attributeName;
+        $acl = $this->{$this->getAclAttributeName()};
         return isset($acl) && !empty($acl) ? $acl : $this->getDefaultAcl();
     }
 
@@ -91,7 +90,7 @@ trait Acl
      * @param $acl string
      */
     private function setAcl($acl) {
-        $this->{$this->getConfig()['model'][$this->acl_model]['attributeName']} = $acl;
+        $this->{$this->getAclAttributeName()} = $acl;
     }
 
     /**
@@ -120,7 +119,7 @@ trait Acl
             }
 
             if (isset($teams)) {
-                if(config('acl.model.group.enableAcl')) {
+                if($this->getConfig('model.group.enableAcl')) {
                     if($teams instanceof Collection) {
                         $key .= '_g:' . $teams->pluck('id')->join(',');
                     }
@@ -139,6 +138,10 @@ trait Acl
 
     public function aclModelType() {
         return $this->acl_model;
+    }
+
+    private function getAclAttributeName() {
+        return $this->getConfig()['model'][$this->acl_model]['attributeName'];
     }
 
     private function getAcls() {

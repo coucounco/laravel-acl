@@ -43,14 +43,30 @@ class TestCase extends Orchestra
      * @param \Illuminate\Foundation\Application $app
      */
     protected function setUpAclConfig($app) {
-        $app['config']->set('acl.permissions', [
+        $app['config']->set('acl', [
+            'defaults' => [
+                'acls' => 'users',
+            ],
+
+            'models' => [
+                User::class => 'users',
+            ],
+
+            'cache' => [
+                'enable' => true,
+                'key' => 'laravel-acl_',
+                'store' => '',
+                'expiration_time' => 432000
+            ]
+        ]);
+        $app['config']->set('acl.users.permissions', [
             'superadmin' => 0,
             'user' => 1,
             'group' => 2,
             'page' => 3,
             'module' => 9,
         ]);
-        $app['config']->set('acl.model', [
+        $app['config']->set('acl.users.model', [
             // direct acl on user
             'user' => [
                 'enableAcl' => true,
