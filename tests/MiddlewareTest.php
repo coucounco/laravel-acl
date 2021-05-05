@@ -63,6 +63,18 @@ class MiddlewareTest extends TestCase
         $this->assertEquals($status, 403);
     }
 
+    public function test_guard_middleware() {
+        $this->be($this->testUser);
+
+        $this->testUser->grantPermission('page',  ACL_READ);
+
+        $status = $this->runMiddleware(
+            $this->middleware, 'page:1$web'
+        );
+
+        $this->assertEquals($status, 200);
+    }
+
     protected function runMiddleware($middleware, $parameter)
     {
         try {
