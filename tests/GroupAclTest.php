@@ -89,4 +89,10 @@ class GroupAclTest extends TestCase
         $this->assertTrue($this->testUser->can('user', [ACL_CREATE, $group2]));
 
     }
+
+    public function test_can_with_no_level() {
+        $group1 = $this->testGroups->first();
+        $group1->grantPermission('user', ACL_ALLOW);
+        $this->assertTrue($group1->hasAcl('user', ACL_ALLOW));
+    }
 }

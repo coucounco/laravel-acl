@@ -166,25 +166,6 @@ trait UserAcl
     }
 
     /**
-     * Check if the permission is granted
-     * @param $permissionId integer The id of the permission
-     * @param $acl string The acl
-     * @param $minLevel integer|string The min accepted level
-     * @return bool
-     */
-    private function aclIsPermissionGranted($permissionId, $acl, $minLevel) {
-        if(!isset($acl)) return false;
-        $userLevel = $acl[-1*($permissionId+1)] ?? ACL_NONE;
-        if(is_numeric($userLevel)) {
-            $numericPermissionLevel = intval($userLevel);
-            return $numericPermissionLevel !== ACL_NONE && $numericPermissionLevel >= $minLevel;
-        }
-        else {
-            return $userLevel === $minLevel;
-        }
-    }
-
-    /**
      * Filter a group or a list of group to remove group that dont belongs to the user
      * @param $groups
      * @return Collection|object
