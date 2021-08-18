@@ -25,7 +25,9 @@ After installation you must perform these steps:
 
 
 #### 2) Publish the laravel-acl config in your app
-This step will copy the config file in the config folder of your Laravel App.
+This step will copy config files in the config folder of your Laravel App.
+- `config/acl.php`
+- `congig/acl/users.php`
 
 ```
 php artisan vendor:publish --provider="rohsyl\LaravelAcl\ServiceProvider"
@@ -34,6 +36,72 @@ php artisan vendor:publish --provider="rohsyl\LaravelAcl\ServiceProvider"
 When it is published you can manage the configuration of larvel-acl through the file in `config/acl.php`, it contains:
 
 ```
+<?php
+return [
+
+    /*
+     * Defaults for laravel-acl
+     */
+    'defaults' => [
+        /**
+         * The acls consists in a set of permissions for a given entity.
+         * Here you can set the default acls (acls defined in the models section of this config file) used by laravel-acl
+         */
+        'acls' => 'users',
+    ],
+
+    /**
+     * Here you map models to acls.
+     *
+     * You can add new row by adding :
+     *      [Model] => [acls_name]
+     *
+     * After adding a new line here, you will need to add a new configuration files under config/acl/[acls_name].php
+     */
+    'models' => [
+        App\Models\User::class => 'users',
+    ],
+
+    /**
+     * Cache configuration
+     */
+    'cache' => [
+        'enable' => true,
+        'key' => 'laravel-acl_',
+        'store' => '',
+        'expiration_time' => 432000
+    ],
+];
+```
+
+### 3) Configure acls
+
+`laravel-acl` provide acls and permissions not only to one model (default `App\Models\User`) but you can configure many. By default, the acls `users` that is using the model `App\Models\User` is used.
+But you can add more acls if needed.
+```
+    'defaults' => [
+        'acls' => 'users',
+    ],
+    'models' => [
+        App\Models\User::class => 'users',
+    ],
+```
+
+Exemple :
+```
+    'defaults' => [
+        'acls' => 'users',
+    ],
+    'models' => [
+        App\Models\User::class => 'users',
+        App\Models\Member::class => 'members',
+    ],
+```
+
+Each acls have a config file associated. `users` has `config/acl/users.php` and contains the following :
+
+```
+<?php
 return [
     /**
      * Register every permissions here
@@ -59,10 +127,10 @@ return [
      *
      */
     'roles' => [
-        'admins' =>     "1",
-        'user' =>   "4110",
+        'admins' => "1",
+        'user' => "0",
     ],
-    
+
     'model' => [
         // direct acl on user
         'user' => [
@@ -93,16 +161,23 @@ return [
              */
             'attributeName' => 'acl',
         ]
+    ],
+
+    'cache' => [
+        'key' => 'laravel-acl_',
+        'store' => '',
+        'expiration_time' => 432000
     ]
 ];
+
 ```
 
 ### 3) Configure ACL for users
 
 Optionally, you can enable direct acl on `User`
 
-To enable this feature, you have to edit `model.user.enableAcl` 
-it in the `config/acl.php` file and do the following instructions.
+To enable this feature, you have to edit  `model.user.enableAcl` 
+it in the `config/acl/users.php` file and do the following instructions.
 
 If you don't want direct acl on user, you can jump to the next chapter.
 
@@ -169,14 +244,14 @@ class AddAclInUsersTable extends Migration
 }
 ```
 
-> By default the name of this column is `acl`, but you can change it by updating `model.user.attributeName` in the `config/acl.php` file and in this migration file.
+> By default the name of this column is `acl`, but you can change it by updating `model.user.attributeName` in the `config/acl/users.php` file and in this migration file.
 
 ### 4) Configure ACL for groups
 
 Optionnaly you can enable group acl.
 
 To enable this feature, you have to edit `model.user.enableAcl` 
-it in the `config/acl.php` file and do the following instructions.
+it in the `config/acl/users.php` file and do the following instructions.
 
 If you don't want direct acl on user, you can jump to the next chapter.
 
@@ -235,7 +310,7 @@ class CreateGroupsTable extends Migration
 }
 ```
 
-> The name of the `acl` column can be changed by updating `model.group.attributeName` in the `config/acl.php` file and in this migration file.
+> The name of the `acl` column can be changed by updating `model.group.attributeName` in the `config/acl/users.php` file and in this migration file.
 
 
 Add a new migration file to create the pivot table named `group_user` 
@@ -333,7 +408,7 @@ class AddAclInUsersTable extends Migration
 }
 ```
 
-> By default the name of this column is `acl`, but you can change it by updating `model.group.attributeName` in the `config/acl.php` file and in this migration file.
+> By default the name of this column is `acl`, but you can change it by updating `model.group.attributeName` in the `config/acl/users.php` file and in this migration file.
 
 
 That's all for database table update.
@@ -365,7 +440,7 @@ class Group extends Model
 Add the relation into the `User` model. 
 
 If your group table has a different name, it's not a problem. You just have to update `model.group.relationship` and set this name on the relation function
-in the the `config/acl.php` file
+in the the `config/acl/users.php` file
 
 ```
 namespace App;
@@ -391,12 +466,12 @@ This chapter explain how laravel-acl works and describe the available tools (hel
 
 ### Define permissions and roles
 
-Permission and roles are managed in a ***hard coded*** way in the `config/acl.php` file. This choice was made to simplify the use 
+Permission and roles are managed in a ***hard coded*** way in the `config/acl/users.php` file. This choice was made to simplify the use 
 and to avoid database query as much as possible.
 
 #### Permissions
 
-You can easly add permissions by adding a new entry in the `permissions` array in the `config/acl.php` file.
+You can easly add permissions by adding a new entry in the `permissions` array in the `config/acl/users.php` file.
 
 The key is the **name** of the permission and the value is the **identifier**
 
@@ -417,7 +492,7 @@ You can manage every other permissions the way you want.
 
 #### Roles 
 
-A role is a preset of permissions. You can manage roles with the `roles` array in the `config/acl.php` file.
+A role is a preset of permissions. You can manage roles with the `roles` array in the `config/acl/users.php` file.
 
 The key is the **name** of the role and the value is the **ACL**.
 
@@ -689,11 +764,13 @@ You can retrieve all permissions with the helper method :
 ```
 $permissions = acl_permissions()
 ```
+> Get permissions for another acls, just pass the acls name in parameter `acl_permissions('members')`
 
 You can retrieve all roles with the helper method :
 ```
 $roles = acl_roles()
 ```
+> Get roles for another acls, just pass the acls name in parameter `acl_permissions('members')`
 
 ### The `strict` option
 
