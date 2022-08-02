@@ -93,6 +93,10 @@ class GroupAclTest extends TestCase
     public function test_can_with_no_level() {
         $group1 = $this->testGroups->first();
         $group1->grantPermission('user', ACL_ALLOW);
+        dump([
+            $group1->acl,
+            $group1->hasAcl('user', ACL_ALLOW)
+        ]);
         $this->assertTrue($group1->hasAcl('user', ACL_ALLOW));
     }
 }
