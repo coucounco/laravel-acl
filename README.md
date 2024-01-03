@@ -1,8 +1,7 @@
 # Laravel-Acl
 
-[![Latest Stable Version](https://poser.pugx.org/rohsyl/laravel-acl/v/stable)](https://packagist.org/packages/rohsyl/laravel-acl)
-[![Build Status](https://travis-ci.org/rohsyl/laravel-acl.svg?branch=master)](https://travis-ci.org/rohsyl/laravel-acl)
-[![Total Downloads](https://poser.pugx.org/rohsyl/laravel-acl/downloads)](https://packagist.org/packages/rohsyl/laravel-acl)
+[![Latest Stable Version](https://poser.pugx.org/coucounco/laravel-acl/v/stable)](https://packagist.org/packages/coucounco/laravel-acl)
+[![Total Downloads](https://poser.pugx.org/coucounco/laravel-acl/downloads)](https://packagist.org/packages/coucounco/laravel-acl)
 
 This is a package that provide Access Control List for Laravel 6.0|7.0|8.0|9.0.
 
