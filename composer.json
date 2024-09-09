@@ -3,25 +3,25 @@
     "description": "Access Control List for Laravel",
     "authors": [
         {
-            "name": "Sylvain Roh",
-            "email": "syzin12@gmail.com"
+            "name": "Coucou&Co",
+            "email": "dev@coucounco.ch"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=8.0.2",
-        "illuminate/auth": "^9.0",
-        "illuminate/container": "^9.0",
-        "illuminate/contracts": "^9.0",
-        "illuminate/database": "^9.0"
+        "php": ">=8.1.0",
+        "illuminate/auth": "^10.0",
+        "illuminate/container": "^10.0",
+        "illuminate/contracts": "^10.0",
+        "illuminate/database": "^10.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.0",
+        "orchestra/testbench": "^8.0",
         "phpunit/phpunit": "^9"
     },
     "autoload": {
         "psr-4": {
-            "rohsyl\\LaravelAcl\\": "src"
+            "coucounco\\LaravelAcl\\": "src"
         },
         "files": [
             "src/Helpers/acl.php"
@@ -29,13 +29,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "rohsyl\\LaravelAcl\\Test\\": "tests"
+            "coucounco\\LaravelAcl\\Test\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "rohsyl\\LaravelAcl\\ServiceProvider"
+                "coucounco\\LaravelAcl\\ServiceProvider"
             ]
         }
     },

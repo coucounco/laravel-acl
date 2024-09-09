@@ -1,5 +1,5 @@
 <?php
-namespace rohsyl\LaravelAcl\Test;
+namespace coucounco\LaravelAcl\Test;
 
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;

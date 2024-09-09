@@ -1,12 +1,12 @@
 <?php
 
-namespace rohsyl\LaravelAcl\Test;
+namespace coucounco\LaravelAcl\Test;
 
 use Illuminate\Database\Schema\Blueprint;
-use rohsyl\LaravelAcl\ServiceProvider;
+use coucounco\LaravelAcl\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use rohsyl\LaravelAcl\Test\Models\Group;
-use rohsyl\LaravelAcl\Test\Models\User;
+use coucounco\LaravelAcl\Test\Models\Group;
+use coucounco\LaravelAcl\Test\Models\User;
 
 class TestCase extends Orchestra
 {

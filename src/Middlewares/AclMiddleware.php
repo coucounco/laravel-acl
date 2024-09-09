@@ -1,9 +1,9 @@
 <?php
-namespace rohsyl\LaravelAcl\Middlewares;
+namespace coucounco\LaravelAcl\Middlewares;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use rohsyl\LaravelAcl\Exceptions\UnauthorizedException;
+use coucounco\LaravelAcl\Exceptions\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AclMiddleware

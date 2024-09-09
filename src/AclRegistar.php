@@ -1,5 +1,5 @@
 <?php
-namespace rohsyl\LaravelAcl;
+namespace coucounco\LaravelAcl;
 
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Access\Authorizable;

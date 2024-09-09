@@ -1,5 +1,5 @@
 <?php
-namespace rohsyl\LaravelAcl\Traits;
+namespace coucounco\LaravelAcl\Traits;
 
 
 use Illuminate\Support\Collection;

@@ -1,10 +1,10 @@
 <?php
-namespace rohsyl\LaravelAcl\Test\Models;
+namespace coucounco\LaravelAcl\Test\Models;
 
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use rohsyl\LaravelAcl\Traits\UserAcl;
+use coucounco\LaravelAcl\Traits\UserAcl;
 
 class User extends Authenticatable
 {
@@ -19,6 +19,6 @@ class User extends Authenticatable
     public $timestamps = false;
 
     public function groups() {
-        return $this->belongsToMany('rohsyl\LaravelAcl\Test\Models\Group');
+        return $this->belongsToMany('coucounco\LaravelAcl\Test\Models\Group');
     }
 }

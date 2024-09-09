@@ -1,13 +1,13 @@
 <?php
 
 
-namespace rohsyl\LaravelAcl\Test;
+namespace coucounco\LaravelAcl\Test;
 
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use rohsyl\LaravelAcl\Exceptions\UnauthorizedException;
-use rohsyl\LaravelAcl\Middlewares\AclMiddleware;
+use coucounco\LaravelAcl\Exceptions\UnauthorizedException;
+use coucounco\LaravelAcl\Middlewares\AclMiddleware;
 
 class MiddlewareTest extends TestCase
 {

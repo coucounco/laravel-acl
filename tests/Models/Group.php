@@ -1,8 +1,8 @@
 <?php
-namespace rohsyl\LaravelAcl\Test\Models;
+namespace coucounco\LaravelAcl\Test\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use rohsyl\LaravelAcl\Traits\GroupAcl;
+use coucounco\LaravelAcl\Traits\GroupAcl;
 
 class Group extends Model
 {
@@ -16,6 +16,6 @@ class Group extends Model
     public $timestamps = false;
 
     public function users() {
-        return $this->belongsToMany('rohsyl\LaravelAcl\Test\Models\User');
+        return $this->belongsToMany('coucounco\LaravelAcl\Test\Models\User');
     }
 }

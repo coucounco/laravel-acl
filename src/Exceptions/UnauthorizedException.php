@@ -1,7 +1,7 @@
 <?php
 
 
-namespace rohsyl\LaravelAcl\Exceptions;
+namespace coucounco\LaravelAcl\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

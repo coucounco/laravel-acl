@@ -13,7 +13,7 @@ For Laravel 9.0 use v2.
 
 This package can be installed through Composer:
 ```
-composer require rohsyl/laravel-acl
+composer require coucounco/laravel-acl
 ```
 After installation you must perform these steps:
 
@@ -22,7 +22,7 @@ After installation you must perform these steps:
 ```
 'providers' => [
     // ...
-    rohsyl\LaravelAcl\ServiceProvider::class,
+    coucounco\LaravelAcl\ServiceProvider::class,
 ];
 ```
 
@@ -33,7 +33,7 @@ This step will copy config files in the config folder of your Laravel App.
 - `congig/acl/users.php`
 
 ```
-php artisan vendor:publish --provider="rohsyl\LaravelAcl\ServiceProvider"
+php artisan vendor:publish --provider="coucounco\LaravelAcl\ServiceProvider"
 ```
 
 When it is published you can manage the configuration of larvel-acl through the file in `config/acl.php`, it contains:
@@ -192,7 +192,7 @@ Add the `UserAcl` trait in your `User` model.
 namespace App;
 
 ...
-use rohsyl\LaravelAcl\Traits\UserAcl;
+use coucounco\LaravelAcl\Traits\UserAcl;
 
 class User extends Model {
     use UserAcl;
@@ -424,7 +424,7 @@ Add the `GroupAcl` trait in your Group model. You also need to add the relations
 namespace App\Models;
 
 ...
-use rohsyl\LaravelAcl\Traits\GroupAcl;
+use coucounco\LaravelAcl\Traits\GroupAcl;
 
 class Group extends Model
 {

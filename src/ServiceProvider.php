@@ -1,9 +1,9 @@
 <?php
-namespace rohsyl\LaravelAcl;
+namespace coucounco\LaravelAcl;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as SP;
-use rohsyl\LaravelAcl\Middlewares\AclMiddleware;
+use coucounco\LaravelAcl\Middlewares\AclMiddleware;
 
 class ServiceProvider extends SP
 {

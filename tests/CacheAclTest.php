@@ -1,5 +1,5 @@
 <?php
-namespace rohsyl\LaravelAcl\Test;
+namespace coucounco\LaravelAcl\Test;
 
 use Closure;
 use Illuminate\Support\Facades\Cache;
